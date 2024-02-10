@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Krendikova</string>
+    <string name="popular_films">Популярные</string>
+    <string name="favorite_films">Избранное</string>
+    <string name="film_name">Изгой-один: Звёздные войны. Истории </string>
+    <string name="film_genre">Фантастика (2016)</string>
+    <string name="film_details_genre"><b>Жанры:</b> Фантастика, приключения</string>
+    <string name="film_details_countries"><b>Страны:</b> США</string>
+    <string name="film_details_desc">Сопротивление собирает отряд для выполнения особой миссии - надо выкрасть чертежи самого совершенного и мертоносного оружия Империи. Не всем суждено вернуться домой, но герои готовы к этому, ведь на кону судьба Галактики</string>
+    <string name="error">Произошла ошибка при загрузке данных, проверьте подключение к сети</string>
+    <string name="repeat">Повторить</string>
+    <string name="search">Поиск</string>
+</resources>
