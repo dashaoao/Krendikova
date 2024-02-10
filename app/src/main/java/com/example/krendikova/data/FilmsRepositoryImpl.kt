@@ -13,11 +13,4 @@ class FilmsRepositoryImpl(
         return filmsApi.getTopFilms().films.mapNotNull { it.toDomain() }
     }
 
-//    override fun getPopularFilms(): Flow<DataState<List<Film>>> = flow {
-//        emit(DataState.Loading())
-//        val films = filmsApi.getTopFilms().mapToDataState { response ->
-//            response.films.mapNotNull { it.toFilm() }
-//        }
-//        emit(films)
-//    }
 }
