@@ -13,7 +13,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="16dp"
-            tools:srcCompat="@drawable/toolbar"
+            android:src="@drawable/toolbar"
             android:layout_centerVertical="true"/>
 
         <EditText
