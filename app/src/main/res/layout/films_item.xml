@@ -70,7 +70,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/film_name"
             app:layout_constraintBottom_toBottomOf="@id/film_name"
-            tools:srcCompat="@drawable/rating" />
+            android:src="@drawable/rating"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

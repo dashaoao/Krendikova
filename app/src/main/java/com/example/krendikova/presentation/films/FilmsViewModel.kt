@@ -1,4 +1,10 @@
 package com.example.krendikova.presentation.films
 
-class FilmsViewModel {
+import androidx.lifecycle.ViewModel
+import com.example.krendikova.domain.repository.FilmsRepository
+
+class FilmsViewModel(
+    private val filmsRepository: FilmsRepository
+) : ViewModel() {
+
 }
