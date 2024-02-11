@@ -32,11 +32,18 @@ class FilmsViewModel(
                 .onSuccess { filmsFlow ->
                     filmsFlow.collect { films ->
                         _uiState.update { state ->
-                            state.copy(
-                                films = films.map { it.toUi() },
-                                isLoading = false,
-                                isError = false
-                            )
+                            if (films.isEmpty()){
+                                state.copy(
+                                    isPlaceholder = true
+                                )
+                            } else {
+                                state.copy(
+                                    films = films.map { it.toUi() },
+                                    isLoading = false,
+                                    isError = false,
+                                    isPlaceholder = false
+                                )
+                            }
                         }
                     }
                 }

@@ -1,24 +1,25 @@
 package com.example.krendikova.presentation.films
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.TypedValue
-import androidx.transition.ChangeBounds
-import androidx.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
 import com.example.krendikova.R
-import kotlinx.coroutines.launch
 import com.example.krendikova.databinding.FragmentFilmsBinding
 import com.example.krendikova.presentation.film_details.FilmDetailsFragment
 import com.google.android.material.color.MaterialColors
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -62,10 +63,17 @@ class FilmsFragment : Fragment() {
                 filmsAdapter.submitList(it.films)
                 if (it.isError){
                     binding.filmsListLayoutContainer.isVisible  = false
+                    binding.noneLayoutContainer.isVisible = false
                     binding.errorLayoutContainer.isVisible = true
-                } else {
-                    binding.filmsListLayoutContainer.isVisible  = true
+                } else if (it.isPlaceholder) {
+                    binding.filmsListLayoutContainer.isVisible  = false
                     binding.errorLayoutContainer.isVisible = false
+                    binding.noneLayoutContainer.isVisible = true
+                }
+                else {
+                    binding.errorLayoutContainer.isVisible = false
+                    binding.noneLayoutContainer.isVisible = false
+                    binding.filmsListLayoutContainer.isVisible  = true
                 }
             }
         }
@@ -106,6 +114,8 @@ class FilmsFragment : Fragment() {
         binding.noneLayout.btnNone.setOnClickListener{
             closeEditToolbar()
             viewModel.loadFilms()
+            val inputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
         }
         binding.errorLayout.btnRepeat.setOnClickListener{
             viewModel.loadFilms()
