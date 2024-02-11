@@ -1,8 +1,7 @@
 package com.example.krendikova.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.os.bundleOf
+import androidx.appcompat.app.AppCompatActivity
 import com.example.krendikova.R
 import com.example.krendikova.presentation.films.FilmsFragment
 

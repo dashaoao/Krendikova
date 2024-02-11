@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.krendikova.databinding.FilmsItemBinding
-import com.example.krendikova.domain.model.Film
 import com.example.krendikova.presentation.FilmUiModel
 
 class FilmsAdapter(
@@ -25,7 +24,7 @@ class FilmsAdapter(
                 root.setOnClickListener {
                     onClick(getItem(adapterPosition).id)
                 }
-                root.setOnLongClickListener{
+                root.setOnLongClickListener {
                     onLongClick(getItem(adapterPosition).id)
                     true
                 }
@@ -52,8 +51,11 @@ class FilmsAdapter(
 
     companion object {
         private val DiffCallback = object : DiffUtil.ItemCallback<FilmUiModel>() {
-            override fun areItemsTheSame(oldItem: FilmUiModel, newItem: FilmUiModel) = oldItem.id == newItem.id
-            override fun areContentsTheSame(oldItem: FilmUiModel, newItem: FilmUiModel) = oldItem == newItem
+            override fun areItemsTheSame(oldItem: FilmUiModel, newItem: FilmUiModel) =
+                oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: FilmUiModel, newItem: FilmUiModel) =
+                oldItem == newItem
         }
     }
 }

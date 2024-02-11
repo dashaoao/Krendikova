@@ -1,7 +1,5 @@
 package com.example.krendikova.presentation.film_details
 
-import retrofit2.http.Url
-
 data class FilmDetailsUiState(
     val isLoading: Boolean = false,
     val isError: Boolean = false,

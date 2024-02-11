@@ -19,4 +19,5 @@ fun Film.toUi() = FilmUiModel(
     year = year,
     posterUrl = posterUrl,
     posterUrlPreview = posterUrlPreview,
-    isFavorite = isFavorite)
+    isFavorite = isFavorite
+)

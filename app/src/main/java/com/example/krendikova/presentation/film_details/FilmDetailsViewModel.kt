@@ -3,7 +3,6 @@ package com.example.krendikova.presentation.film_details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.krendikova.domain.repository.FilmsRepository
-import com.example.krendikova.presentation.toUi
 import com.example.krendikova.utils.runCatchingNonCancellation
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

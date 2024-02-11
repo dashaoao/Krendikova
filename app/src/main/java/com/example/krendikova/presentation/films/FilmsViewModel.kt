@@ -32,7 +32,7 @@ class FilmsViewModel(
                 .onSuccess { filmsFlow ->
                     filmsFlow.collect { films ->
                         _uiState.update { state ->
-                            if (films.isEmpty()){
+                            if (films.isEmpty()) {
                                 state.copy(
                                     isPlaceholder = true
                                 )
@@ -53,7 +53,7 @@ class FilmsViewModel(
         }
     }
 
-    fun onFavoriteClick(idFilm: String){
+    fun onFavoriteClick(idFilm: String) {
         viewModelScope.launch {
             _uiState.update { state ->
                 state.copy(

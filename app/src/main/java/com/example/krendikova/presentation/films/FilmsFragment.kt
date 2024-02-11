@@ -61,19 +61,18 @@ class FilmsFragment : Fragment() {
             viewModel.uiState.collect {
                 binding.filmsListLayout.progress.isVisible = it.isLoading
                 filmsAdapter.submitList(it.films)
-                if (it.isError){
-                    binding.filmsListLayoutContainer.isVisible  = false
+                if (it.isError) {
+                    binding.filmsListLayoutContainer.isVisible = false
                     binding.noneLayoutContainer.isVisible = false
                     binding.errorLayoutContainer.isVisible = true
                 } else if (it.isPlaceholder) {
-                    binding.filmsListLayoutContainer.isVisible  = false
+                    binding.filmsListLayoutContainer.isVisible = false
                     binding.errorLayoutContainer.isVisible = false
                     binding.noneLayoutContainer.isVisible = true
-                }
-                else {
+                } else {
                     binding.errorLayoutContainer.isVisible = false
                     binding.noneLayoutContainer.isVisible = false
-                    binding.filmsListLayoutContainer.isVisible  = true
+                    binding.filmsListLayoutContainer.isVisible = true
                 }
             }
         }
@@ -81,13 +80,17 @@ class FilmsFragment : Fragment() {
     }
 
     private fun setTypeSettings() {
-        val colorActiveBtn = MaterialColors.getColor(requireContext(), R.attr.colorPrimaryVariant, Color.BLACK)
-        val colorInactiveBtn = MaterialColors.getColor(requireContext(), R.attr.colorPrimaryContainer, Color.WHITE)
-        val colorActiveBtnText = MaterialColors.getColor(requireContext(), R.attr.colorOnPrimary, Color.WHITE)
-        val colorInactiveBtnText = MaterialColors.getColor(requireContext(), R.attr.colorOnPrimaryContainer, Color.BLACK)
+        val colorActiveBtn =
+            MaterialColors.getColor(requireContext(), R.attr.colorPrimaryVariant, Color.BLACK)
+        val colorInactiveBtn =
+            MaterialColors.getColor(requireContext(), R.attr.colorPrimaryContainer, Color.WHITE)
+        val colorActiveBtnText =
+            MaterialColors.getColor(requireContext(), R.attr.colorOnPrimary, Color.WHITE)
+        val colorInactiveBtnText =
+            MaterialColors.getColor(requireContext(), R.attr.colorOnPrimaryContainer, Color.BLACK)
 
-        with(binding){
-            when(type){
+        with(binding) {
+            when (type) {
                 Type.FAVOURITE -> {
                     with(filmsListLayout) {
                         btnFavorite.setBackgroundColor(colorActiveBtn)
@@ -97,6 +100,7 @@ class FilmsFragment : Fragment() {
                     }
                     toolbar1.title.text = requireContext().getString(R.string.favorite_films)
                 }
+
                 Type.POPULAR -> {
                     with(filmsListLayout) {
                         btnFavorite.setBackgroundColor(colorInactiveBtn)
@@ -111,13 +115,14 @@ class FilmsFragment : Fragment() {
     }
 
     private fun setClickListeners() {
-        binding.noneLayout.btnNone.setOnClickListener{
+        binding.noneLayout.btnNone.setOnClickListener {
             closeEditToolbar()
             viewModel.loadFilms()
-            val inputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val inputMethodManager =
+                activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
         }
-        binding.errorLayout.btnRepeat.setOnClickListener{
+        binding.errorLayout.btnRepeat.setOnClickListener {
             viewModel.loadFilms()
         }
         binding.filmsListLayout.btnFavorite.setOnClickListener {
@@ -132,7 +137,7 @@ class FilmsFragment : Fragment() {
         }
     }
 
-    private fun launchFragmentFilmDetails(id: String) : Unit {
+    private fun launchFragmentFilmDetails(id: String): Unit {
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.main_container, FilmDetailsFragment.newInstance(id))
             .addToBackStack(null)
@@ -143,12 +148,12 @@ class FilmsFragment : Fragment() {
         val transition = ChangeBounds()
         transition.duration = 1000
 
-        binding.toolbar1.searchImg.setOnClickListener{
+        binding.toolbar1.searchImg.setOnClickListener {
             TransitionManager.beginDelayedTransition(binding.toolbar2Container, transition)
             binding.toolbar1Container.isVisible = false
             binding.toolbar2Container.isVisible = true
         }
-        binding.toolbar2.toolbarImg.setOnClickListener{
+        binding.toolbar2.toolbarImg.setOnClickListener {
             TransitionManager.beginDelayedTransition(binding.toolbar2Container, transition)
             closeEditToolbar()
             viewModel.loadFilms()
@@ -156,7 +161,7 @@ class FilmsFragment : Fragment() {
     }
 
     private fun handleSearch() {
-        binding.toolbar2.input.addTextChangedListener(object: TextWatcher {
+        binding.toolbar2.input.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -181,9 +186,10 @@ class FilmsFragment : Fragment() {
 
     companion object {
         enum class Type { FAVOURITE, POPULAR }
+
         private const val ARG_TYPE = "arg_type"
 
-        fun newInstance(type: Type) : Fragment {
+        fun newInstance(type: Type): Fragment {
             return FilmsFragment().apply {
                 arguments = bundleOf(
                     ARG_TYPE to type.name
