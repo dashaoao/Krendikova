@@ -1,8 +1,11 @@
 package com.example.krendikova.presentation.films
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.krendikova.domain.repository.FilmsRepository
+import com.example.krendikova.domain.usecase.GetPopularFilmsUseCase
 import com.example.krendikova.presentation.toUi
 import com.example.krendikova.utils.runCatchingNonCancellation
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +15,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class FilmsViewModel(
-    private val filmsRepository: FilmsRepository
+    private val filmsRepository: FilmsRepository,
+    private val getPopularFilmsUseCase: GetPopularFilmsUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(FilmsUiState())
     val uiState: StateFlow<FilmsUiState> = _uiState.asStateFlow()
@@ -21,11 +25,11 @@ class FilmsViewModel(
         loadFilms()
     }
 
-    fun loadFilms() {
+    fun loadFilms(keyword: String = "") {
         viewModelScope.launch {
             runCatchingNonCancellation {
                 _uiState.update { it.copy(isLoading = true) }
-                filmsRepository.getPopularFilms().map { it.toUi() }
+                getPopularFilmsUseCase(keyword).map { it.toUi() }
             }
                 .onSuccess { films ->
                     _uiState.update { it.copy(films = films, isLoading = false, isError = false) }
@@ -35,23 +39,4 @@ class FilmsViewModel(
                 }
         }
     }
-
-//    fun searchMoviesByWord(word: String) {
-//        viewModelScope.launch {
-//            try {
-//                _loadingState.postValue(true)
-//                val list = searchMoviesUseCase.execute(word)
-//                if (list?.isEmpty() == true)
-//                    _error.postValue(LoadState.NONE)
-//                else
-//                    _error.postValue(LoadState.SUCCESS)
-//                _movies.postValue(list)
-//            } catch (e: Exception) {
-//                _movies.postValue(null)
-//                _error.postValue(LoadState.NONE)
-//            } finally {
-//                _loadingState.postValue(false)
-//            }
-//        }
-//    }
 }

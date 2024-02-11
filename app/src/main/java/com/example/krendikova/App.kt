@@ -3,6 +3,7 @@ package com.example.krendikova
 import android.app.Application
 import com.example.krendikova.di.appModule
 import com.example.krendikova.di.dataModule
+import com.example.krendikova.di.domainModule
 import com.example.krendikova.di.networkModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -16,7 +17,7 @@ class App : Application() {
         startKoin {
             androidLogger(Level.DEBUG)
             androidContext(this@App)
-            modules(appModule, dataModule, networkModule)
+            modules(appModule, dataModule, networkModule, domainModule)
         }
     }
 }

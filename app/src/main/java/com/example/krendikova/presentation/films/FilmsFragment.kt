@@ -35,8 +35,8 @@ class FilmsFragment : Fragment() {
     ): View {
         _binding = FragmentFilmsBinding.inflate(inflater, container, false)
 
-//        toggleToolbars()
-//        handleSearch()
+        toggleToolbars()
+        handleSearch()
 
         return binding.root
     }
@@ -57,6 +57,14 @@ class FilmsFragment : Fragment() {
                 }
             }
         }
+        setClickListeners()
+    }
+
+    private fun setClickListeners() {
+        binding.noneLayout.btnNone.setOnClickListener{
+            closeEditToolbar()
+            viewModel.loadFilms()
+        }
         binding.errorLayout.btnRepeat.setOnClickListener{
             viewModel.loadFilms()
         }
@@ -68,6 +76,10 @@ class FilmsFragment : Fragment() {
             .addToBackStack(null)
             .commit()
     }
+
+//    private fun onMovieItemLongClickListener() {
+//        viewModel.addMovieToFavorite(it)
+//    }
 
     private fun toggleToolbars() {
         val transition = ChangeBounds()
@@ -85,24 +97,18 @@ class FilmsFragment : Fragment() {
         }
     }
 
-//    private fun handleSearch() {
-//        binding.toolbar2.input.addTextChangedListener(object: TextWatcher {
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-//
-//            override fun afterTextChanged(s: Editable?) {
-//                val searchQuery = s?.toString() ?: ""
-//                if (searchQuery.isNotEmpty())
-//                    viewModel.searchMoviesByWord(searchQuery)
-//            }
-//        })
-//
-//        binding.layoutNone.btnNone.setOnClickListener {
-//            closeEditToolbar()
-//            viewModel.loadFilms()
-//        }
-//    }
+    private fun handleSearch() {
+        binding.toolbar2.input.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                val searchQuery = s?.toString() ?: ""
+                viewModel.loadFilms(searchQuery)
+            }
+        })
+    }
 
     private fun closeEditToolbar() {
         binding.toolbar1Container.isVisible = true
