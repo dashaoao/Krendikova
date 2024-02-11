@@ -27,7 +27,6 @@ class FilmsAdapter(
                 }
                 root.setOnLongClickListener{
                     onLongClick(getItem(adapterPosition).id)
-                    favoriteImg.isVisible = !favoriteImg.isVisible
                     true
                 }
             }
@@ -35,6 +34,7 @@ class FilmsAdapter(
 
         fun bind(item: FilmUiModel) {
             with(binding) {
+                favoriteImg.isVisible = item.isFavorite
                 filmName.text = item.name
                 filmGenre.text = item.genres[0] + " (" + item.year.toString() + ")"
                 bannerImg.load(item.posterUrlPreview)

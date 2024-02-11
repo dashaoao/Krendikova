@@ -9,6 +9,7 @@ data class FilmUiModel(
     val year: Int?,
     val posterUrl: String?,
     val posterUrlPreview: String?,
+    val isFavorite: Boolean,
 )
 
 fun Film.toUi() = FilmUiModel(
@@ -17,4 +18,5 @@ fun Film.toUi() = FilmUiModel(
     genres = genres,
     year = year,
     posterUrl = posterUrl,
-    posterUrlPreview = posterUrlPreview,)
+    posterUrlPreview = posterUrlPreview,
+    isFavorite = isFavorite)

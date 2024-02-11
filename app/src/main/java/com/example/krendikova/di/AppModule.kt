@@ -11,7 +11,8 @@ val appModule = module {
     viewModel {
         FilmsViewModel(
             filmsRepository = get(),
-            getPopularFilmsUseCase = get()
+            getPopularFilmsUseCase = get(),
+            onFavoriteClickUseCase = get()
         )
     }
 

@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -68,11 +69,15 @@ dependencies {
     //coil
     implementation("io.coil-kt:coil:2.5.0")
 
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
+
     //room
-    implementation("androidx.room:room-runtime:2.3.0")
-    implementation("androidx.room:room-ktx:2.3.0")
+    val roomVersion = "2.5.2"
+    implementation ("androidx.room:room-ktx:$roomVersion")
+    implementation("androidx.room:room-runtime:$roomVersion")
 
     //ksp
-    implementation("com.google.devtools.ksp:symbol-processing-api:1.9.21-1.0.15")
+    ksp("androidx.room:room-compiler:$roomVersion")
 
 }

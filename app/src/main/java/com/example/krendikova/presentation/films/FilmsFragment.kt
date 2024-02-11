@@ -21,7 +21,7 @@ class FilmsFragment : Fragment() {
     private val viewModel: FilmsViewModel by viewModel()
     private val filmsAdapter = FilmsAdapter(
         onClick = ::launchFragmentFilmDetails,
-        onLongClick = {},
+        onLongClick = viewModel::onFavoriteClick,
     )
 
     private var _binding: FragmentFilmsBinding? = null
@@ -76,10 +76,6 @@ class FilmsFragment : Fragment() {
             .addToBackStack(null)
             .commit()
     }
-
-//    private fun onMovieItemLongClickListener() {
-//        viewModel.addMovieToFavorite(it)
-//    }
 
     private fun toggleToolbars() {
         val transition = ChangeBounds()

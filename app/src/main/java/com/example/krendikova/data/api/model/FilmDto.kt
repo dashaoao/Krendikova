@@ -15,7 +15,9 @@ class FilmDto(
     val posterUrlPreview: String? = null,
 )
 
-fun FilmDto.toDomain(): Film? {
+fun FilmDto.toDomain(
+    isFavorite: Boolean
+): Film? {
     return Film(
         id = id?.toString() ?: kinopoiskId?.toString() ?: return null,
         name = name ?: return null,
@@ -25,5 +27,6 @@ fun FilmDto.toDomain(): Film? {
         year = year,
         posterUrl = posterUrl,
         posterUrlPreview = posterUrlPreview,
+        isFavorite = isFavorite
     )
 }
