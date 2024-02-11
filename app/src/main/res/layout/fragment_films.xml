@@ -6,19 +6,24 @@
     android:orientation="vertical">
 
     <FrameLayout
-        android:id="@+id/toolbar_container"
+        android:id="@+id/toolbar1_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="visible">
 
         <include
             android:id="@+id/toolbar1"
-            layout="@layout/title_toolbar_layout"
-            android:visibility="visible" />
+            layout="@layout/title_toolbar_layout"/>
+    </FrameLayout>
 
+    <FrameLayout
+        android:id="@+id/toolbar2_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
         <include
             android:id="@+id/toolbar2"
-            layout="@layout/search_toolbar_layout"
-            android:visibility="gone" />
+            layout="@layout/search_toolbar_layout" />
 
     </FrameLayout>
 

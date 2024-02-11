@@ -11,8 +11,11 @@ val appModule = module {
         FilmsViewModel(filmsRepository = get())
     }
 
-    viewModel {
-        FilmDetailsViewModel(filmsRepository = get())
+    viewModel {params ->
+        FilmDetailsViewModel(
+            filmDetailsId = params.get(),
+            filmsRepository = get()
+        )
     }
 
 }

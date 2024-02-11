@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/backgroundColor">
+
+    <ImageView
+        android:id="@+id/banner_max_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/banner_max" />
+
+    <ImageView
+        android:id="@+id/toolbar"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="32dp"
+        android:src="@drawable/toolbar"
+        />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/banner_max_img"
+        android:text="@string/film_name"
+        style="@style/Widget.Krendikova.TextView"
+        android:textSize="20sp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:layout_marginTop="16dp"
+        android:textColor="?attr/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/tv_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/film_details_desc"
+        android:textSize="14sp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/tv_genre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_desc"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/film_details_genre"
+        android:textSize="14sp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/tv_countries"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_genre"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/film_details_countries"
+        android:textSize="14sp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:layout_marginTop="16dp"
+        android:paddingBottom="16dp"/>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="?attr/colorPrimaryVariant"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

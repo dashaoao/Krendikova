@@ -35,4 +35,23 @@ class FilmsViewModel(
                 }
         }
     }
+
+//    fun searchMoviesByWord(word: String) {
+//        viewModelScope.launch {
+//            try {
+//                _loadingState.postValue(true)
+//                val list = searchMoviesUseCase.execute(word)
+//                if (list?.isEmpty() == true)
+//                    _error.postValue(LoadState.NONE)
+//                else
+//                    _error.postValue(LoadState.SUCCESS)
+//                _movies.postValue(list)
+//            } catch (e: Exception) {
+//                _movies.postValue(null)
+//                _error.postValue(LoadState.NONE)
+//            } finally {
+//                _loadingState.postValue(false)
+//            }
+//        }
+//    }
 }

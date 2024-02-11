@@ -1,81 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundColor">
+    android:background="?attr/backgroundColor"
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/banner_max_img"
+    <FrameLayout
+        android:id="@+id/films_details_layout_container"
+        android:name="com.example.krendikova.presentation.films.FilmsFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/banner_max" />
+        android:layout_height="match_parent"
+        android:visibility="visible">
+        <include
+            android:id="@+id/films_details_layout"
+            layout="@layout/film_details_layout" />
+    </FrameLayout>
 
-    <ImageView
-        android:id="@+id/toolbar"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="32dp"
-        tools:srcCompat="@drawable/toolbar"
-        />
-
-    <TextView
-        android:id="@+id/tv_name"
+    <FrameLayout
+        android:id="@+id/error_layout_container"
+        android:name="com.example.krendikova.presentation.films.FilmsFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/banner_max_img"
-        android:text="@string/film_name"
-        style="@style/Widget.Krendikova.TextView"
-        android:textSize="20sp"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
-        android:layout_marginTop="16dp"
-        android:textColor="?attr/colorPrimary"/>
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <include
+            android:id="@+id/error_layout"
+            layout="@layout/error_layout" />
+    </FrameLayout>
 
-    <TextView
-        android:id="@+id/tv_desc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tv_name"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/film_details_desc"
-        android:textSize="14sp"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
-        android:layout_marginTop="16dp"/>
-
-    <TextView
-        android:id="@+id/tv_genre"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tv_desc"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/film_details_genre"
-        android:textSize="14sp"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
-        android:layout_marginTop="16dp"/>
-
-    <TextView
-        android:id="@+id/tv_countries"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tv_genre"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/film_details_countries"
-        android:textSize="14sp"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
-        android:layout_marginTop="16dp"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
