@@ -3,9 +3,12 @@ package com.example.krendikova.data
 import com.example.krendikova.data.api.FilmsApi
 import com.example.krendikova.data.api.model.toDomain
 import com.example.krendikova.data.database.FavouriteFilmsDao
+import com.example.krendikova.data.database.model.toDomain
 import com.example.krendikova.data.database.model.toFilmDbModel
 import com.example.krendikova.domain.model.Film
 import com.example.krendikova.domain.repository.FilmsRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class FilmsRepositoryImpl(
     private val filmsApi: FilmsApi,
@@ -18,6 +21,11 @@ class FilmsRepositoryImpl(
             favoriteList.contains(it.id.toString()) || favoriteList.contains(it.kinopoiskId.toString())
         ) }
     }
+
+    override suspend fun getFavouriteFilms(): Flow<List<Film>> =
+        favouriteFilmsDao.getAll().map { list ->
+            list.map { it.toDomain() }
+        }
 
     override suspend fun getFilm(id: String): Film {
         val isFavorite = favouriteFilmsDao.getAllIds().contains(id)

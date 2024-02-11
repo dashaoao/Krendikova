@@ -8,10 +8,6 @@ import org.koin.dsl.module
 
 val dataModule = module {
 
-//    single {
-//        AppDatabase.getInstance(application = androidApplication())
-//    }
-//
     single {
         val db: FilmsDatabase = get()
         db.favouriteFilmsDao()

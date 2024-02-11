@@ -11,24 +11,21 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.example.krendikova.databinding.FragmentFilmDetailsBinding
+import com.example.krendikova.presentation.films.FilmsFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class FilmDetailsFragment : Fragment() {
 
-    private lateinit var  filmDetailsId: String
+    private val filmDetailsId: String = requireArguments().getString(FILM_ID)
+        ?: throw IllegalArgumentException("FilmId was not found")
 
-    private val viewModel: FilmDetailsViewModel by viewModel{ parametersOf(filmDetailsId) }
+    private val viewModel: FilmDetailsViewModel by viewModel { parametersOf(filmDetailsId) }
 
     private var _binding: FragmentFilmDetailsBinding? = null
     private val binding: FragmentFilmDetailsBinding
         get() = _binding ?: throw RuntimeException("FragmentFilmDetailsBinding = null")
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        parseArgs()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +44,7 @@ class FilmDetailsFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.uiState.collect {
                 binding.filmsDetailsLayout.progress.isVisible = it.isLoading
-                if (it.isError){
+                if (it.isError) {
                     showError()
                 } else {
                     showScreen(it)
@@ -56,26 +53,22 @@ class FilmDetailsFragment : Fragment() {
         }
     }
 
-    private fun parseArgs() {
-        requireArguments().getString(FILM_ID)?.let { filmDetailsId = it }
-    }
-
     private fun setClickListeners() {
-        binding.errorLayout.btnRepeat.setOnClickListener{
+        binding.errorLayout.btnRepeat.setOnClickListener {
             viewModel.loadFilm()
         }
-        binding.filmsDetailsLayout.toolbar.setOnClickListener{
+        binding.filmsDetailsLayout.toolbar.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
     }
 
     private fun showError() {
-        binding.filmsDetailsLayoutContainer.isVisible  = false
+        binding.filmsDetailsLayoutContainer.isVisible = false
         binding.errorLayoutContainer.isVisible = true
     }
 
     private fun showScreen(filmDetailsUiState: FilmDetailsUiState) {
-        binding.filmsDetailsLayoutContainer.isVisible  = true
+        binding.filmsDetailsLayoutContainer.isVisible = true
         binding.errorLayoutContainer.isVisible = false
         binding.filmsDetailsLayout.bannerMaxImg.load(filmDetailsUiState.imgUrl)
         binding.filmsDetailsLayout.tvName.text = filmDetailsUiState.title
@@ -94,7 +87,7 @@ class FilmDetailsFragment : Fragment() {
     companion object {
         private const val FILM_ID = "filmId"
 
-        fun newInstance(filmId: String) : FilmDetailsFragment{
+        fun newInstance(filmId: String): FilmDetailsFragment {
             return FilmDetailsFragment().apply {
                 arguments = Bundle().apply {
                     putString(FILM_ID, filmId)

@@ -1,13 +1,16 @@
 package com.example.krendikova.presentation.films
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.TypedValue
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -15,14 +18,16 @@ import com.example.krendikova.R
 import kotlinx.coroutines.launch
 import com.example.krendikova.databinding.FragmentFilmsBinding
 import com.example.krendikova.presentation.film_details.FilmDetailsFragment
+import com.google.android.material.color.MaterialColors
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class FilmsFragment : Fragment() {
-    private val viewModel: FilmsViewModel by viewModel()
-    private val filmsAdapter = FilmsAdapter(
-        onClick = ::launchFragmentFilmDetails,
-        onLongClick = viewModel::onFavoriteClick,
-    )
+
+    private val type: Type by lazy {
+        Type.valueOf(requireArguments().getString(ARG_TYPE) ?: Type.POPULAR.name)
+    }
+    private val viewModel: FilmsViewModel by viewModel { parametersOf(type) }
 
     private var _binding: FragmentFilmsBinding? = null
     private val binding: FragmentFilmsBinding
@@ -43,7 +48,14 @@ class FilmsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val filmsAdapter = FilmsAdapter(
+            onClick = ::launchFragmentFilmDetails,
+            onLongClick = viewModel::onFavoriteClick,
+        )
         binding.filmsListLayout.rvFilms.adapter = filmsAdapter
+
+        setTypeSettings()
+
         lifecycleScope.launch {
             viewModel.uiState.collect {
                 binding.filmsListLayout.progress.isVisible = it.isLoading
@@ -60,6 +72,36 @@ class FilmsFragment : Fragment() {
         setClickListeners()
     }
 
+    private fun setTypeSettings() {
+        val colorActiveBtn = MaterialColors.getColor(requireContext(), R.attr.colorPrimaryVariant, Color.BLACK)
+        val colorInactiveBtn = MaterialColors.getColor(requireContext(), R.attr.colorPrimaryContainer, Color.WHITE)
+        val colorActiveBtnText = MaterialColors.getColor(requireContext(), R.attr.colorOnPrimary, Color.WHITE)
+        val colorInactiveBtnText = MaterialColors.getColor(requireContext(), R.attr.colorOnPrimaryContainer, Color.BLACK)
+
+        with(binding){
+            when(type){
+                Type.FAVOURITE -> {
+                    with(filmsListLayout) {
+                        btnFavorite.setBackgroundColor(colorActiveBtn)
+                        btnPopular.setBackgroundColor(colorInactiveBtn)
+                        btnFavorite.setTextColor(colorActiveBtnText)
+                        btnPopular.setTextColor(colorInactiveBtnText)
+                    }
+                    toolbar1.title.text = requireContext().getString(R.string.favorite_films)
+                }
+                Type.POPULAR -> {
+                    with(filmsListLayout) {
+                        btnFavorite.setBackgroundColor(colorInactiveBtn)
+                        btnPopular.setBackgroundColor(colorActiveBtn)
+                        btnFavorite.setTextColor(colorInactiveBtnText)
+                        btnPopular.setTextColor(colorActiveBtnText)
+                    }
+                    toolbar1.title.text = requireContext().getString(R.string.popular_films)
+                }
+            }
+        }
+    }
+
     private fun setClickListeners() {
         binding.noneLayout.btnNone.setOnClickListener{
             closeEditToolbar()
@@ -67,6 +109,16 @@ class FilmsFragment : Fragment() {
         }
         binding.errorLayout.btnRepeat.setOnClickListener{
             viewModel.loadFilms()
+        }
+        binding.filmsListLayout.btnFavorite.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_container, newInstance(Type.FAVOURITE))
+                .commit()
+        }
+        binding.filmsListLayout.btnPopular.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_container, newInstance(Type.POPULAR))
+                .commit()
         }
     }
 
@@ -115,5 +167,18 @@ class FilmsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        enum class Type { FAVOURITE, POPULAR }
+        private const val ARG_TYPE = "arg_type"
+
+        fun newInstance(type: Type) : Fragment {
+            return FilmsFragment().apply {
+                arguments = bundleOf(
+                    ARG_TYPE to type.name
+                )
+            }
+        }
     }
 }

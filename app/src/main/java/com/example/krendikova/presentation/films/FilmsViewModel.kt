@@ -1,11 +1,8 @@
 package com.example.krendikova.presentation.films
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.krendikova.domain.repository.FilmsRepository
-import com.example.krendikova.domain.usecase.GetPopularFilmsUseCase
+import com.example.krendikova.domain.usecase.GetFilmsUseCase
 import com.example.krendikova.domain.usecase.OnFavoriteClickUseCase
 import com.example.krendikova.presentation.toUi
 import com.example.krendikova.utils.runCatchingNonCancellation
@@ -16,8 +13,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class FilmsViewModel(
-    private val filmsRepository: FilmsRepository,
-    private val getPopularFilmsUseCase: GetPopularFilmsUseCase,
+    private val getFilmsUseCase: GetFilmsUseCase,
     private val onFavoriteClickUseCase: OnFavoriteClickUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(FilmsUiState())
@@ -31,10 +27,18 @@ class FilmsViewModel(
         viewModelScope.launch {
             runCatchingNonCancellation {
                 _uiState.update { it.copy(isLoading = true) }
-                getPopularFilmsUseCase(keyword).map { it.toUi() }
+                getFilmsUseCase(keyword)
             }
-                .onSuccess { films ->
-                    _uiState.update { it.copy(films = films, isLoading = false, isError = false) }
+                .onSuccess { filmsFlow ->
+                    filmsFlow.collect { films ->
+                        _uiState.update { state ->
+                            state.copy(
+                                films = films.map { it.toUi() },
+                                isLoading = false,
+                                isError = false
+                            )
+                        }
+                    }
                 }
                 .onFailure {
                     _uiState.update { it.copy(isError = true) }

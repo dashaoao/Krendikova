@@ -8,7 +8,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface FilmsApi {
-    @GET("v2.2/films/top")
+    @GET("v2.2/films/top?type=TOP_100_POPULAR_FILMS")
     suspend fun getTopFilms(): GetFilmsResponse
 
     @GET("v2.2/films/{id}")
