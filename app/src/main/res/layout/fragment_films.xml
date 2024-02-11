@@ -28,36 +28,40 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/films_list_layout_container"
-        android:name="com.example.krendikova.presentation.films.FilmsFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible">
-        <include
-            android:id="@+id/films_list_layout"
-            layout="@layout/films_list_layout" />
-    </FrameLayout>
+        android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/none_layout_container"
-        android:name="com.example.krendikova.presentation.films.FilmsFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-        <include
-            android:id="@+id/none_layout"
-            layout="@layout/none_layout" />
-    </FrameLayout>
+        <FrameLayout
+            android:id="@+id/none_layout_container"
+            android:name="com.example.krendikova.presentation.films.FilmsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+            <include
+                android:id="@+id/none_layout"
+                layout="@layout/none_layout" />
+        </FrameLayout>
 
-    <FrameLayout
-        android:id="@+id/error_layout_container"
-        android:name="com.example.krendikova.presentation.films.FilmsFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-        <include
-            android:id="@+id/error_layout"
-            layout="@layout/error_layout" />
-    </FrameLayout>
+        <FrameLayout
+            android:id="@+id/films_list_layout_container"
+            android:name="com.example.krendikova.presentation.films.FilmsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+            <include
+                android:id="@+id/films_list_layout"
+                layout="@layout/films_list_layout" />
+        </FrameLayout>
 
+        <FrameLayout
+            android:id="@+id/error_layout_container"
+            android:name="com.example.krendikova.presentation.films.FilmsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+            <include
+                android:id="@+id/error_layout"
+                layout="@layout/error_layout" />
+        </FrameLayout>
+    </FrameLayout>
 </LinearLayout>

@@ -11,14 +11,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.example.krendikova.databinding.FragmentFilmDetailsBinding
+import com.example.krendikova.presentation.films.FilmsFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class FilmDetailsFragment : Fragment() {
 
-    private val filmDetailsId: String = requireArguments().getString(FILM_ID)
+    private val filmDetailsId: String by lazy {
+        requireArguments().getString(FILM_ID)
         ?: throw IllegalArgumentException("FilmId was not found")
+    }
 
     private val viewModel: FilmDetailsViewModel by viewModel { parametersOf(filmDetailsId) }
 
@@ -67,20 +70,25 @@ class FilmDetailsFragment : Fragment() {
     }
 
     private fun showScreen(filmDetailsUiState: FilmDetailsUiState) {
-        binding.filmsDetailsLayoutContainer.isVisible = true
-        binding.errorLayoutContainer.isVisible = false
-        binding.filmsDetailsLayout.bannerMaxImg.load(filmDetailsUiState.imgUrl)
-        binding.filmsDetailsLayout.tvName.text = filmDetailsUiState.title
-        binding.filmsDetailsLayout.tvDesc.text = filmDetailsUiState.descr
-        val countriesText = SpannableStringBuilder()
-            .bold { append("Страны: ") }
-            .append(filmDetailsUiState.country)
-        binding.filmsDetailsLayout.tvCountries.text = countriesText
+        with(binding){
+            filmsDetailsLayoutContainer.isVisible = true
+            errorLayoutContainer.isVisible = false
 
-        val genresText = SpannableStringBuilder()
-            .bold { append("Жанры: ") }
-            .append(filmDetailsUiState.genre)
-        binding.filmsDetailsLayout.tvGenre.text = genresText
+            with(filmsDetailsLayout){
+                bannerMaxImg.load(filmDetailsUiState.imgUrl)
+                tvName.text = filmDetailsUiState.title
+                tvDesc.text = filmDetailsUiState.descr
+                val countriesText = SpannableStringBuilder()
+                    .bold { append("Страны: ") }
+                    .append(filmDetailsUiState.country)
+                tvCountries.text = countriesText
+
+                val genresText = SpannableStringBuilder()
+                    .bold { append("Жанры: ") }
+                    .append(filmDetailsUiState.genre)
+                tvGenre.text = genresText
+            }
+        }
     }
 
     companion object {

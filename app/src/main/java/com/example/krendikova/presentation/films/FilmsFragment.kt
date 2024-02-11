@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -61,19 +62,10 @@ class FilmsFragment : Fragment() {
             viewModel.uiState.collect {
                 binding.filmsListLayout.progress.isVisible = it.isLoading
                 filmsAdapter.submitList(it.films)
-                if (it.isError) {
-                    binding.filmsListLayoutContainer.isVisible = false
-                    binding.noneLayoutContainer.isVisible = false
-                    binding.errorLayoutContainer.isVisible = true
-                } else if (it.isPlaceholder) {
-                    binding.filmsListLayoutContainer.isVisible = false
-                    binding.errorLayoutContainer.isVisible = false
-                    binding.noneLayoutContainer.isVisible = true
-                } else {
-                    binding.errorLayoutContainer.isVisible = false
-                    binding.noneLayoutContainer.isVisible = false
-                    binding.filmsListLayoutContainer.isVisible = true
-                }
+
+                binding.filmsListLayoutContainer.isVisible = !it.isError
+                binding.noneLayoutContainer.isVisible = it.isPlaceholder
+                binding.errorLayoutContainer.isVisible = it.isError
             }
         }
         setClickListeners()
@@ -89,27 +81,17 @@ class FilmsFragment : Fragment() {
         val colorInactiveBtnText =
             MaterialColors.getColor(requireContext(), R.attr.colorOnPrimaryContainer, Color.BLACK)
 
-        with(binding) {
-            when (type) {
-                Type.FAVOURITE -> {
-                    with(filmsListLayout) {
-                        btnFavorite.setBackgroundColor(colorActiveBtn)
-                        btnPopular.setBackgroundColor(colorInactiveBtn)
-                        btnFavorite.setTextColor(colorActiveBtnText)
-                        btnPopular.setTextColor(colorInactiveBtnText)
-                    }
-                    toolbar1.title.text = requireContext().getString(R.string.favorite_films)
-                }
+        fun Button.bindColors(isActive: Boolean) {
+            setBackgroundColor(if (isActive) colorActiveBtn else colorInactiveBtn)
+            setTextColor(if (isActive) colorActiveBtnText else colorInactiveBtnText)
+        }
 
-                Type.POPULAR -> {
-                    with(filmsListLayout) {
-                        btnFavorite.setBackgroundColor(colorInactiveBtn)
-                        btnPopular.setBackgroundColor(colorActiveBtn)
-                        btnFavorite.setTextColor(colorInactiveBtnText)
-                        btnPopular.setTextColor(colorActiveBtnText)
-                    }
-                    toolbar1.title.text = requireContext().getString(R.string.popular_films)
-                }
+        with(binding) {
+            filmsListLayout.btnPopular.bindColors(isActive = type == Type.POPULAR)
+            filmsListLayout.btnFavorite.bindColors(isActive = type == Type.FAVOURITE)
+            toolbar1.title.text = when (type) {
+                Type.FAVOURITE -> requireContext().getString(R.string.favorite_films)
+                Type.POPULAR -> requireContext().getString(R.string.popular_films)
             }
         }
     }

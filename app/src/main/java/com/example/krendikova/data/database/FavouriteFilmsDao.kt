@@ -17,9 +17,6 @@ interface FavouriteFilmsDao {
     @Query("SELECT id FROM favourite_films")
     suspend fun getAllIds(): List<String>
 
-    @Query("SELECT id FROM favourite_films")
-    fun getAllIdsFlow(): Flow<List<String>>
-
     @Query("SELECT * FROM favourite_films WHERE id = :filmId")
     suspend fun getFilm(filmId: String): FavouriteFilmDbModel?
 

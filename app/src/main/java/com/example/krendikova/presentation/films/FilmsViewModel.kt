@@ -32,18 +32,12 @@ class FilmsViewModel(
                 .onSuccess { filmsFlow ->
                     filmsFlow.collect { films ->
                         _uiState.update { state ->
-                            if (films.isEmpty()) {
-                                state.copy(
-                                    isPlaceholder = true
-                                )
-                            } else {
-                                state.copy(
-                                    films = films.map { it.toUi() },
-                                    isLoading = false,
-                                    isError = false,
-                                    isPlaceholder = false
-                                )
-                            }
+                            state.copy(
+                                films = films.map { it.toUi() },
+                                isLoading = false,
+                                isError = false,
+                                isPlaceholder = films.isEmpty()
+                            )
                         }
                     }
                 }
@@ -55,15 +49,17 @@ class FilmsViewModel(
 
     fun onFavoriteClick(idFilm: String) {
         viewModelScope.launch {
-            _uiState.update { state ->
-                state.copy(
-                    films = state.films.map {
-                        if (it.id == idFilm) it.copy(isFavorite = !it.isFavorite)
-                        else it
-                    }
-                )
+            runCatchingNonCancellation {
+                _uiState.update { state ->
+                    state.copy(
+                        films = state.films.map {
+                            if (it.id == idFilm) it.copy(isFavorite = !it.isFavorite)
+                            else it
+                        }
+                    )
+                }
+                onFavoriteClickUseCase.invoke(idFilm)
             }
-            onFavoriteClickUseCase.invoke(idFilm)
         }
     }
 }
